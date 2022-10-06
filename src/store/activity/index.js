@@ -62,6 +62,17 @@ const actions = {
           reject(err)
         })
     })
+  },
+  changeNameActivity (context, { id, title }) {
+    return new Promise((resolve, reject) => {
+      axios.patch(`/activity-groups/${id}`, { title })
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }
 

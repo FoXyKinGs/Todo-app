@@ -10,11 +10,19 @@
           img(
             src='@/assets/arrowLeft.svg'
           )
+        input-component(
+          v-if='isEditable'
+          :value='nameActivity'
+          @changeEditable='changeEditable'
+          @changeActivityName='changeNameActivity'
+        )
         h1(
+          v-else
           data-cy='todo-title'
-        ) {{ detailActivity.title }}
+        ) {{ nameActivity }}
         span.pencil(
           data-cy='todo-title-edit-button'
+          @click='changeEditable()'
         )
           img(
             src='@/assets/pencilIcon.svg'
@@ -70,7 +78,8 @@ import TheSpinner from '@/components/TheSpinner.vue'
 import NoTodo from '@/components/detailActivity/NoTodo.vue'
 import TodoCard from '@/components/detailActivity/TodoCard.vue'
 import SortBox from '@/components/detailActivity/SortBox.vue'
-import { computed, ref } from 'vue'
+import InputComponent from '@/components/detailActivity/InputComponent.vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
@@ -78,17 +87,24 @@ import { useRoute } from 'vue-router'
 const isLoading = ref(true)
 const route = useRoute()
 const store = useStore()
+const isEditable = ref(false)
 const id = route.params.id
+const nameActivity = ref('')
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 // --------
 
 // Function
 const getDetailActivity = () => {
   store.dispatch('activity/getDetailActivity', id)
-    .then(() => {
+    .then((res) => {
+      nameActivity.value = res.data.title
       isLoading.value = false
     })
     .catch(err => console.log(err))
+}
+
+const changeNameActivity = (val) => {
+  nameActivity.value = val
 }
 
 const showSortBox = () => {
@@ -98,6 +114,26 @@ const showSortBox = () => {
     box.classList.remove('hidden')
   } else {
     box.classList.add('hidden')
+  }
+}
+
+const changeEditable = (val) => {
+  if (val === false) {
+    isEditable.value = val
+  } else if (isEditable.value) {
+    // disini ges
+    isEditable.value = !isEditable.value
+    isLoading.value = true
+    store.dispatch('activity/changeNameActivity', { id, title: nameActivity.value })
+      .then(() => {
+        getDetailActivity()
+      })
+      .catch(err => console.log(err))
+  } else {
+    isEditable.value = !isEditable.value
+    setTimeout(() => {
+      document.querySelector('input').focus()
+    }, [100])
   }
 }
 // --------
