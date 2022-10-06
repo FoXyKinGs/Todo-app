@@ -43,7 +43,9 @@
                 src='@/assets/upSideDownIcon.svg'
               )
             .sort__box.hidden#box
-              sort-box
+              sort-box(
+                @sorting='changeSorting'
+              )
           button.add(
             data-cy="todo-add-button"
             @click='openModalAddTodo()'
@@ -64,7 +66,7 @@
         v-if='detailActivity.todo_items.length > 0'
       )
         todo-card(
-          v-for='list in detailActivity.todo_items'
+          v-for='list in todos'
           :key='list.id'
           :data='list'
           @deleteTodo='changeSelected'
@@ -95,6 +97,10 @@
     @editTodo='confirmEdit'
   )
 
+  modal-confirmed(
+    v-if='isModalConfirmedOPen'
+  )
+
 </template>
 
 <script setup>
@@ -107,6 +113,7 @@ import InputComponent from '@/components/detailActivity/InputComponent.vue'
 import ModalAddTodo from '@/components/modals/ModalAddTodo.vue'
 import ModalDeleteTodo from '@/components/modals/ModalDeleteTodo.vue'
 import ModalEditTodo from '@/components/modals/ModalEditTodo.vue'
+import ModalConfirmed from '@/components/modals/ModalConfirmed.vue'
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -118,10 +125,12 @@ const store = useStore()
 const isEditable = ref(false)
 const id = route.params.id
 const nameActivity = ref('')
+const todos = ref([])
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 const isModalAddTodoOpen = computed(() => store.getters.getIsModalAddTodoOpen)
 const isModalDeleteTodoOpen = computed(() => store.getters.getIsModalDeleteTodoOpen)
 const isModalEditTodoOpen = computed(() => store.getters.getIsModalEditTodoOPen)
+const isModalConfirmedOPen = computed(() => store.getters.getIsModalConfirmedOpen)
 const selectedTodo = ref({})
 // --------
 
@@ -130,6 +139,7 @@ const getDetailActivity = () => {
   store.dispatch('activity/getDetailActivity', id)
     .then((res) => {
       nameActivity.value = res.data.title
+      todos.value = res.data.todo_items
       isLoading.value = false
     })
     .catch(err => console.log(err))
@@ -153,7 +163,6 @@ const changeEditable = (val) => {
   if (val === false) {
     isEditable.value = val
   } else if (isEditable.value) {
-    // disini ges
     isEditable.value = !isEditable.value
     isLoading.value = true
     store.dispatch('activity/changeNameActivity', { id, title: nameActivity.value })
@@ -184,7 +193,14 @@ const changeSelected = val => {
 
 const confirmDelete = () => {
   isLoading.value = true
-  getDetailActivity()
+  store.dispatch('changeStatusModalDeleteTodo', false)
+  store.dispatch('activity/getDetailActivity', id)
+    .then(res => {
+      todos.value = res.data.todo_items
+      store.dispatch('changeStatusModalConfirmed', true)
+      isLoading.value = false
+    })
+    .catch(err => console.log(err))
 }
 
 const confirmEdit = (e) => {
@@ -194,6 +210,27 @@ const confirmEdit = (e) => {
       getDetailActivity()
     })
     .catch(err => console.log(err))
+}
+
+const changeSorting = (e) => {
+  showSortBox()
+  if (e === 'terbaru') {
+    return todos.value.sort((a,b) => b.id - a.id)
+  }
+  if (e === 'terlama') {
+    return todos.value.sort((a,b) => a.id - b.id)
+  }
+  if (e === 'az') {
+    return todos.value.sort((a,b) => a.title.localeCompare(b.title))
+  }
+  if (e === 'za') {
+    return todos.value.sort((a,b) => a.title.localeCompare(b.title)).reverse()
+  }
+  if (e === 'belum selesai') {
+    return todos.value.sort((a,b) => b.is_active - a.is_active)
+  }
+
+  return
 }
 // --------
 

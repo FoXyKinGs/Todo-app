@@ -7,6 +7,7 @@
     .modal__header
       img(
         src='@/assets/dangerIcon.svg'
+        data-cy='modal-delete-icon'
       )
       h4(
         data-cy='modal-delete-title'

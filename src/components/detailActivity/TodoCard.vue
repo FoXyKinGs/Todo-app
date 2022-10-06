@@ -37,7 +37,7 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import { defineProps, defineEmits, ref } from 'vue'
+import { defineProps, defineEmits, ref, watch } from 'vue'
 
 // Variable
 const store = useStore()
@@ -46,6 +46,10 @@ const props = defineProps({
   data: {
     type: Object,
     default: () => null
+  },
+  sorting: {
+    type: String,
+    default: ''
   }
 })
 const status = ref(false)

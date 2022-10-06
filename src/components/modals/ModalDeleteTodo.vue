@@ -58,7 +58,6 @@ window.onclick = function(event) {
 const confirmDelete = () => {
   store.dispatch('activity/deleteTodo', props.data.id)
     .then(() => {
-      closeModal()
       emit('confirmDelete')
     })
     .catch(err => console.log(err))

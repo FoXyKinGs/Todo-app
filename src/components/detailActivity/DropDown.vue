@@ -12,6 +12,7 @@
   .chevron-down-icon
     img(
       src='@/assets/chevronDownIcon.svg'
+      data-cy='modal-add-priority-dropdown'
     )
   .select-box-list.hidden#box-list
     ul
