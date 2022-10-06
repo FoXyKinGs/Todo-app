@@ -20,6 +20,7 @@
       ) {{ props.data.title }}
       .edit-icon(
         data-cy='todo-item-edit-button'
+        @click='editTodo({ id: props.data.id  })'
       )
         img(
           src='@/assets/pencilIcon.svg'
@@ -40,7 +41,7 @@ import { defineProps, defineEmits, ref } from 'vue'
 
 // Variable
 const store = useStore()
-const emit = defineEmits(['deleteTodo'])
+const emit = defineEmits(['deleteTodo', 'editTodo'])
 const props = defineProps({
   data: {
     type: Object,
@@ -62,6 +63,11 @@ const changeStatus = () => {
 const deleteTodo = (val) => {
   emit('deleteTodo', val)
   store.dispatch('changeStatusModalDeleteTodo', true)
+}
+
+const editTodo = (val) => {
+  emit('editTodo', val)
+  store.dispatch('changeStatusModalEditTodo', true)
 }
 // --------
 

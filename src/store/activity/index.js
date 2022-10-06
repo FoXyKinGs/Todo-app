@@ -106,6 +106,28 @@ const actions = {
           reject(new Error(err))
         })
     })
+  },
+  getDetailTodo (context, id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/todo-items/${id}`)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
+  },
+  editTodo (context, { id, is_active, priority, title }) {
+    return new Promise((resolve, reject) => {
+      axios.patch(`/todo-items/${id}`, { is_active, priority, title })
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
   }
 }
 

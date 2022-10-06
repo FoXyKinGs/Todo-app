@@ -6,9 +6,9 @@
     data-cy='modal-add-priority-item'
   )
     .dot(
-      :class='data.class'
+      :class='props.data ? props.data : data.class'
     )
-    |  {{ data.value }}
+    |  {{ props.data ? capitalize(props.data)  : data.value }}
   .chevron-down-icon
     img(
       src='@/assets/chevronDownIcon.svg'
@@ -21,7 +21,7 @@
         .dot.very-high
         |  Very High
         span.verify(
-          v-if='data.value === "Very High"'
+          v-if='props.data ? capitalize(props.data) === "Very High" : data.value === "Very High"'
         )
           img(
             src='@/assets/checkIcon.svg'
@@ -32,7 +32,7 @@
         .dot.high
         |  High
         span.verify(
-          v-if='data.value === "High"'
+          v-if='data.value === "High" || capitalize(props.data) === "High"'
         )
           img(
             src='@/assets/checkIcon.svg'
@@ -43,7 +43,7 @@
         .dot.normal
         |  Medium
         span.verify(
-          v-if='data.value === "Medium"'
+          v-if='data.value === "Medium" || capitalize(props.data) === "Medium"'
         )
           img(
             src='@/assets/checkIcon.svg'
@@ -54,7 +54,7 @@
         .dot.low
         |  Low
         span.verify(
-          v-if='data.value === "Low"'
+          v-if='data.value === "Low" || capitalize(props.data) === "Low"'
         )
           img(
             src='@/assets/checkIcon.svg'
@@ -65,7 +65,7 @@
         .dot.very-low
         |  Very Low
         span.verify(
-          v-if='data.value === "Very Low"'
+          v-if='data.value === "Very Low" || capitalize(props.data) === "Very Low"'
         )
           img(
             src='@/assets/checkIcon.svg'
@@ -73,9 +73,16 @@
 </template>
 
 <script setup>
-import { reactive, defineEmits } from 'vue'
+import { reactive, defineEmits, defineProps } from 'vue'
 
 // Variable
+const props = defineProps({
+  data: {
+    type: String,
+    default: ''
+  }
+})
+
 const data = reactive({
   class: 'very-high',
   value: 'Very High'
@@ -98,6 +105,20 @@ const changeValue = (val) =>{
   data.class = val.class
   data.value = val.value
   emit('changePriority', val.class)
+}
+
+const capitalize = (val) => {
+  const handler = val.split('-')
+
+  for(var i = 0 ; i < handler.length ; i++){
+    handler[i] = handler[i].charAt(0).toUpperCase() + handler[i].substr(1);
+  }
+
+  if (handler.join(' ') === 'Normal') {
+    return 'Medium'
+  }
+
+  return handler.join(' ')
 }
 // --------
 

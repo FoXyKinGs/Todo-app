@@ -67,13 +67,16 @@
           v-for='list in detailActivity.todo_items'
           :key='list.id'
           :data='list'
-          @deleteTodo='deleteTodo'
+          @deleteTodo='changeSelected'
+          @editTodo='changeSelected'
         )
       .no-todo(
         v-else
         data-cy='todo-empty-state'
       )
-        no-todo
+        no-todo(
+          @addTodo='openModalAddTodo'
+        )
   //- Modal
   modal-add-todo(
     v-if='isModalAddTodoOpen'
@@ -84,6 +87,12 @@
     v-if='isModalDeleteTodoOpen'
     :data='selectedTodo'
     @confirmDelete='confirmDelete'
+  )
+
+  modal-edit-todo(
+    v-if='isModalEditTodoOpen'
+    :data='selectedTodo'
+    @editTodo='confirmEdit'
   )
 
 </template>
@@ -97,6 +106,7 @@ import SortBox from '@/components/detailActivity/SortBox.vue'
 import InputComponent from '@/components/detailActivity/InputComponent.vue'
 import ModalAddTodo from '@/components/modals/ModalAddTodo.vue'
 import ModalDeleteTodo from '@/components/modals/ModalDeleteTodo.vue'
+import ModalEditTodo from '@/components/modals/ModalEditTodo.vue'
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -111,6 +121,7 @@ const nameActivity = ref('')
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 const isModalAddTodoOpen = computed(() => store.getters.getIsModalAddTodoOpen)
 const isModalDeleteTodoOpen = computed(() => store.getters.getIsModalDeleteTodoOpen)
+const isModalEditTodoOpen = computed(() => store.getters.getIsModalEditTodoOPen)
 const selectedTodo = ref({})
 // --------
 
@@ -167,13 +178,22 @@ const refreshData = () => {
   getDetailActivity()
 }
 
-const deleteTodo = val => {
+const changeSelected = val => {
   selectedTodo.value = val
 }
 
 const confirmDelete = () => {
   isLoading.value = true
   getDetailActivity()
+}
+
+const confirmEdit = (e) => {
+  isLoading.value = true
+  store.dispatch('activity/editTodo', { id: e.id, is_active: e.is_active, priority: e.priority, title: e.title })
+    .then(() => {
+      getDetailActivity()
+    })
+    .catch(err => console.log(err))
 }
 // --------
 
