@@ -84,6 +84,17 @@ const actions = {
           reject(new Error(err))
         })
     })
+  },
+  changeTodoStatus (context, { id, is_active, title }) {
+    return new Promise((resolve, reject) => {
+      axios.patch(`/todo-items/${id}`, { is_active, title })
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
   }
 }
 

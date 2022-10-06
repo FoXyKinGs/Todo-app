@@ -7,6 +7,8 @@
       input(
         type='checkbox'
         data-cy='todo-item-checkbox'
+        v-model='status'
+        @click='changeStatus()'
       )
       .dot(
         data-cy='todo-item-priority-indicator'
@@ -14,6 +16,7 @@
       )
       span(
         data-cy='todo-item-title'
+        :class='status ? "true" : "false"'
       ) {{ props.data.title }}
       .edit-icon(
         data-cy='todo-item-edit-button'
@@ -31,17 +34,32 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { useStore } from 'vuex'
+import { defineProps, ref } from 'vue'
 
 // Variable
+const store = useStore()
 const props = defineProps({
   data: {
     type: Object,
     default: () => null
   }
 })
+const status = ref(false)
 // --------
 
+// Function
+const changeStatus = () => {
+  if (status.value) {
+    store.dispatch('activity/changeTodoStatus', { id: props.data.id, is_active: 1, title: props.data.title })
+  } else {
+    store.dispatch('activity/changeTodoStatus', { id: props.data.id, is_active: 0, title: props.data.title })
+  }
+}
+// --------
+
+// First Load Instance
+status.value = props.data.is_active === 1 ? false : true
 </script>
 
 <style lang="sass" scoped>
@@ -102,6 +120,10 @@ const props = defineProps({
       span
         font-size: 18px
         font-weight: 500
+
+        &.true
+          text-decoration: line-through
+          color: #888888
 
       .edit-icon
         margin-left: 15px
