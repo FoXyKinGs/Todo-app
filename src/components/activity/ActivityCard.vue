@@ -3,7 +3,9 @@
   data-cy='activity-item'
 )
   .activity
-    .activity__title
+    .activity__title(
+      @click='changeRoute(props.data.id)'
+    )
       h4(
         data-cy='activity-item-title'
       ) {{ props.data.title }}
@@ -21,9 +23,11 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 // Variable
 const store = useStore()
+const router = useRouter()
 const emit = defineEmits(['setData'])
 // --------
 
@@ -47,6 +51,10 @@ const formatDate = (val) => {
 const deleteActivity = (val) => {
   emit('setData', val)
   store.dispatch('changeStatusModalDelete', true)
+}
+
+const changeRoute = (id) => {
+  router.push(`/detail/${id}`)
 }
 // -------
 

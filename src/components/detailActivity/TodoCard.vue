@@ -1,0 +1,101 @@
+<template lang="pug">
+.todo-card(
+  data-cy='todo-item'
+)
+  .todo
+    .left-side
+      input(
+        type='checkbox'
+        data-cy='todo-item-checkbox'
+      )
+      .dot(
+        data-cy='todo-item-priority-indicator'
+        class='very-high'
+      )
+      span(
+        data-cy='todo-item-title'
+      ) Example
+      .edit-icon(
+        data-cy='todo-item-edit-button'
+      )
+        img(
+          src='@/assets/pencilIcon.svg'
+        )
+    .right-side
+      .trash-icon(
+        data-cy='todo-item-delete-button'
+      )
+        img(
+          src='@/assets/trashIcon.svg'
+        )
+</template>
+
+<style lang="sass" scoped>
+.todo-card
+  width: 100%
+  height: 80px
+  background: #FFFFFF
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1)
+  border-radius: 12px
+
+  .todo
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 27px
+
+    .left-side
+      display: flex
+      justify-content: flex-start
+      align-items: center
+
+      input[type=checkbox]
+        -ms-transform: scale(1.5)
+        -moz-transform: scale(1.5)
+        -webkit-transform: scale(1.5)
+        -o-transform: scale(1.5)
+        transform: scale(1.5)
+        color: pink
+        padding: 10px
+        margin-right: 27px
+
+      .dot
+        width: 10px
+        height: 10px
+        margin-right: 15px
+        border-radius: 50%
+
+        &.very-high
+          border: 1px solid #ED4C5C
+          background: #ED4C5C
+
+        &.high
+          border: 1px solid #F8A541
+          background: #F8A541
+
+        &.medium
+          border: 1px solid #00A790
+          background: #00A790
+
+        &.low
+          border: 1px solid #428BC1
+          background: #428BC1
+
+        &.very-low
+          border: 1px solid #8942C1
+          background: #8942C1
+
+      span
+        font-size: 18px
+        font-weight: 500
+
+      .edit-icon
+        margin-left: 15px
+        cursor: pointer
+
+    .right-side
+
+
+      .trash-icon
+        cursor: pointer
+</style>

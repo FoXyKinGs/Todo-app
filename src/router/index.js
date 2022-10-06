@@ -5,6 +5,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: () => import(/* webpackChunkName: "todo" */ '@/views/IndexView.vue')
+  },
+  {
+    path: '/detail/:id',
+    name: 'Detail',
+    component: () => import(/* webpackChunkName: "todo" */ '@/views/DetailView.vue')
   }
 ]
 

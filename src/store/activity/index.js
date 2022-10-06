@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const defaultState = {
-  listActivity: []
+  listActivity: [],
+  detailActivity: {}
 }
 
 const state = defaultState
@@ -9,6 +10,9 @@ const state = defaultState
 const mutations = {
   INIT_LIST_ACTIVITY (state, payload) {
     state.listActivity = payload
+  },
+  INIT_DETAIL_ACTIVITY (state, payload) {
+    state.detailActivity = payload
   }
 }
 
@@ -46,6 +50,18 @@ const actions = {
           reject(new Error(err))
         })
     })
+  },
+  getDetailActivity ({ commit }, id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/activity-groups/${id}`)
+        .then(response => {
+          commit('INIT_DETAIL_ACTIVITY', response.data)
+          resolve(response)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }
 
@@ -56,6 +72,7 @@ export default {
   mutations,
   actions,
   getters: {
-    getListActivity: state => state.listActivity
+    getListActivity: state => state.listActivity,
+    getDetailActivity: state => state.detailActivity
   },
 }

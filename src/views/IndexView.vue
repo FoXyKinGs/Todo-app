@@ -20,9 +20,7 @@
     .section__loading(
       v-if='isLoading'
     )
-      the-spinner(
-        :color='"#16ABF8"'
-      )
+      the-spinner
     .section__content(
       v-else
     )
@@ -123,7 +121,6 @@ getListActivity()
   height: 100%
 
   .section
-    overflow: hidden
     width: 100%
     height: 100%
     max-width: 1000px
