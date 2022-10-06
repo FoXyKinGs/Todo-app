@@ -14,11 +14,18 @@
       img(
         src='@/assets/trashIcon.svg'
         data-cy='activity-item-delete-button'
+        @click='deleteActivity({ id: props.data.id,  title: props.data.title})'
       )
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, defineEmits } from 'vue'
+import { useStore } from 'vuex'
+
+// Variable
+const store = useStore()
+const emit = defineEmits(['setData'])
+// --------
 
 const props = defineProps({
   data: {
@@ -36,6 +43,12 @@ const formatDate = (val) => {
 
   return `${day} ${month} ${year}`
 }
+
+const deleteActivity = (val) => {
+  emit('setData', val)
+  store.dispatch('changeStatusModalDelete', true)
+}
+// -------
 
 </script>
 

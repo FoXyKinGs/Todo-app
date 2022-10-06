@@ -33,12 +33,26 @@
           v-for='activity in listActivity'
           :key='activity.id'
           :data='activity'
+          @setData='setData'
         )
       .empty-item(
         v-else
         data-cy='activity-empty-state'
       )
-        no-activity
+        no-activity(
+          @addData='addActivity()'
+        )
+
+  //- Modal
+  modal-delete(
+    v-if='isModalDeleteOPen'
+    :selectedData='selectedData'
+    @openModal='openModalConfirmed'
+  )
+
+  modal-confirmed(
+    v-if='isModalConfirmedOPen'
+  )
 </template>
 
 <script setup>
@@ -46,13 +60,18 @@ import NoActivity from '@/components/activity/NoActivity.vue'
 import ActivityCard from '@/components/activity/ActivityCard.vue'
 import TheSpinner from '@/components/TheSpinner.vue'
 import SkeletonButtonComponent from '@/components/SkeletonButtonComponent.vue'
+import ModalDelete from '@/components/modals/ModalDelete.vue'
+import ModalConfirmed from '@/components/modals/ModalConfirmed.vue'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 // Variable
 const store = useStore()
-const isLoading = ref('true')
+const isLoading = ref(true)
+const selectedData = ref({})
 const listActivity = computed(() => store.getters['activity/getListActivity'])
+const isModalDeleteOPen = computed(() => store.getters.getIsModalDeleteOpen)
+const isModalConfirmedOPen = computed(() => store.getters.getIsModalConfirmedOpen)
 // --------
 
 
@@ -73,6 +92,21 @@ const addActivity = () => {
     })
     .catch(err => console.log(err))
 }
+
+const openModalConfirmed = () => {
+  isLoading.value = true
+  store.dispatch('changeStatusModalDelete', false)
+  store.dispatch('activity/getListActivity')
+    .then(() => {
+      store.dispatch('changeStatusModalConfirmed', true)
+      isLoading.value = false
+    })
+    .catch(err => console.log(err))
+}
+
+const setData = (val) => {
+  selectedData.value = val
+}
 // --------
 
 // First load instance
@@ -86,8 +120,10 @@ getListActivity()
   margin-top: 135px
   display: flex
   justify-content: center
+  height: 100%
 
   .section
+    overflow: hidden
     width: 100%
     height: 100%
     max-width: 1000px

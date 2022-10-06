@@ -35,6 +35,17 @@ const actions = {
           reject(new Error(err))
         })
     })
+  },
+  deleteActivity (context, id) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`/activity-groups/${id}`)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
   }
 }
 
