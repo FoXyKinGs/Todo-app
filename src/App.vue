@@ -1,5 +1,6 @@
 <template lang="pug">
 the-header
+router-view
 </template>
 
 <script setup>
@@ -15,7 +16,11 @@ import TheHeader from '@/components/TheHeader.vue'
   margin: 0
   box-sizing: border-box
 
+body
+  background-color: #F4F4F4
+
 .container
-  padding: 20px 120px
+  padding: 15px 220px
+
 
 </style>

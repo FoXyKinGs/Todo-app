@@ -1,6 +1,11 @@
 <template lang="pug">
-.container
-  h1 TO DO LIST APP
+.container(
+  data-cy='header-background'
+)
+  .section
+    h2(
+      data-cy="header-title"
+    ) TO DO LIST APP
 </template>
 
 <style lang="sass" scoped>
@@ -14,8 +19,14 @@
   height: 105px
   color: #FFF
   display: flex
-  align-items: center
+  justify-content: center
 
-  h1
-    font-size: 24px
+
+  .section
+    width: 100%
+    height: 100%
+    max-width: 1000px
+    display: flex
+    align-items: center
+
 </style>
