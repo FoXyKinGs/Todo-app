@@ -73,6 +73,17 @@ const actions = {
           reject(err)
         })
     })
+  },
+  addTodo (context, { activity_group_id, priority ,title }) {
+    return new Promise((resolve, reject) => {
+      axios.post('/todo-items', { activity_group_id, priority, title })
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
   }
 }
 

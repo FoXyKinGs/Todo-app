@@ -46,7 +46,7 @@
               sort-box
           button.add(
             data-cy="todo-add-button"
-            @click="addActivity()"
+            @click='openModalAddTodo()'
           )
             img(
               src='@/assets/plusIcon.svg'
@@ -63,13 +63,21 @@
       .todo(
         v-if='detailActivity.todo_items.length > 0'
       )
-        todo-card
+        todo-card(
+          v-for='list in detailActivity.todo_items'
+          :key='list.id'
+          :data='list'
+        )
       .no-todo(
         v-else
         data-cy='todo-empty-state'
       )
         no-todo
-
+  //- Modal
+  modal-add-todo(
+    v-if='isModalAddTodoOpen'
+    @refreshData='refreshData'
+  )
 </template>
 
 <script setup>
@@ -79,6 +87,7 @@ import NoTodo from '@/components/detailActivity/NoTodo.vue'
 import TodoCard from '@/components/detailActivity/TodoCard.vue'
 import SortBox from '@/components/detailActivity/SortBox.vue'
 import InputComponent from '@/components/detailActivity/InputComponent.vue'
+import ModalAddTodo from '@/components/detailActivity/ModalAddTodo.vue'
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -91,6 +100,7 @@ const isEditable = ref(false)
 const id = route.params.id
 const nameActivity = ref('')
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
+const isModalAddTodoOpen = computed(() => store.getters.getIsModalAddTodoOpen)
 // --------
 
 // Function
@@ -135,6 +145,15 @@ const changeEditable = (val) => {
       document.querySelector('input').focus()
     }, [100])
   }
+}
+
+const openModalAddTodo = () => {
+  store.dispatch('changeStatusModalAddTodo', true)
+}
+
+const refreshData = () => {
+  isLoading.value = true
+  getDetailActivity()
 }
 // --------
 

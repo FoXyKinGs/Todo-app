@@ -10,11 +10,11 @@
       )
       .dot(
         data-cy='todo-item-priority-indicator'
-        class='very-high'
+        :class='props.data.priority'
       )
       span(
         data-cy='todo-item-title'
-      ) Example
+      ) {{ props.data.title }}
       .edit-icon(
         data-cy='todo-item-edit-button'
       )
@@ -29,6 +29,20 @@
           src='@/assets/trashIcon.svg'
         )
 </template>
+
+<script setup>
+import { defineProps } from 'vue'
+
+// Variable
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => null
+  }
+})
+// --------
+
+</script>
 
 <style lang="sass" scoped>
 .todo-card
@@ -73,7 +87,7 @@
           border: 1px solid #F8A541
           background: #F8A541
 
-        &.medium
+        &.normal
           border: 1px solid #00A790
           background: #00A790
 
