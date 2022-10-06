@@ -11,6 +11,7 @@
       button(
         v-else
         data-cy="activity-add-button"
+        @click="addActivity()"
       )
         img(
           src='@/assets/plusIcon.svg'
@@ -28,7 +29,11 @@
       .activity(
         v-if='listActivity.length > 0'
       )
-        activity-card
+        activity-card(
+          v-for='activity in listActivity'
+          :key='activity.id'
+          :data='activity'
+        )
       .empty-item(
         v-else
         data-cy='activity-empty-state'
@@ -50,12 +55,29 @@ const isLoading = ref('true')
 const listActivity = computed(() => store.getters['activity/getListActivity'])
 // --------
 
-store.dispatch('activity/getListActivity')
-  .then(() => {
-    isLoading.value = false
-  })
-  .catch(err => console.log(err))
 
+// Function
+const getListActivity = () => {
+  store.dispatch('activity/getListActivity')
+    .then(() => {
+      isLoading.value = false
+    })
+    .catch(err => console.log(err))
+}
+
+const addActivity = () => {
+  isLoading.value = true
+  store.dispatch('activity/addActivity')
+    .then(() => {
+      getListActivity()
+    })
+    .catch(err => console.log(err))
+}
+// --------
+
+// First load instance
+getListActivity()
+// --------
 
 </script>
 
@@ -92,6 +114,7 @@ store.dispatch('activity/getListActivity')
         font-size: 18px
         font-weight: 600
         gap: 12px
+        cursor: pointer
 
 
     &__content

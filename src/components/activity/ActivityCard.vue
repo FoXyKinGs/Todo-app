@@ -6,16 +6,38 @@
     .activity__title
       h4(
         data-cy='activity-item-title'
-      ) New Activity
+      ) {{ props.data.title }}
     .activity__footer
       span(
         data-cy='activity-item-date'
-      ) 05 October 2022
+      ) {{ formatDate(props.data.created_at) }}
       img(
         src='@/assets/trashIcon.svg'
         data-cy='activity-item-delete-button'
       )
 </template>
+
+<script setup>
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => null
+  }
+})
+
+// Function
+const formatDate = (val) => {
+  const date = new Date(val)
+  const day = date.toLocaleDateString('default', { day: '2-digit' })
+  const month = date.toLocaleDateString('default', { month: 'long' })
+  const year = date.toLocaleDateString('default', { year: 'numeric' })
+
+  return `${day} ${month} ${year}`
+}
+
+</script>
 
 <style lang="sass" scoped>
 .activity-card

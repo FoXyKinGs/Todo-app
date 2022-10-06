@@ -24,6 +24,17 @@ const actions = {
           reject(new Error(err))
         })
     })
+  },
+  addActivity (context) {
+    return new Promise((resolve, reject) => {
+      axios.post('/activity-groups', { email: 'mochrizaldianandakurnia21@gmail.com', title: 'New Activity' })
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
   }
 }
 
