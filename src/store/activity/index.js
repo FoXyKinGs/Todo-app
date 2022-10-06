@@ -95,6 +95,17 @@ const actions = {
           reject(new Error(err))
         })
     })
+  },
+  deleteTodo (context, id) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`/todo-items/${id}`)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(new Error(err))
+        })
+    })
   }
 }
 

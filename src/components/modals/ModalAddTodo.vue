@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import DropDown from './DropDown.vue'
+import DropDown from '@/components/detailActivity/DropDown.vue'
 import { reactive, defineEmits } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'

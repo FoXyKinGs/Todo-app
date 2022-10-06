@@ -30,15 +30,17 @@
       )
         img(
           src='@/assets/trashIcon.svg'
+          @click='deleteTodo({ id: props.data.id, title: props.data.title })'
         )
 </template>
 
 <script setup>
 import { useStore } from 'vuex'
-import { defineProps, ref } from 'vue'
+import { defineProps, defineEmits, ref } from 'vue'
 
 // Variable
 const store = useStore()
+const emit = defineEmits(['deleteTodo'])
 const props = defineProps({
   data: {
     type: Object,
@@ -55,6 +57,11 @@ const changeStatus = () => {
   } else {
     store.dispatch('activity/changeTodoStatus', { id: props.data.id, is_active: 0, title: props.data.title })
   }
+}
+
+const deleteTodo = (val) => {
+  emit('deleteTodo', val)
+  store.dispatch('changeStatusModalDeleteTodo', true)
 }
 // --------
 

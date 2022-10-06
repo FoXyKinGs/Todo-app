@@ -5,12 +5,14 @@ export default createStore({
   state: {
     isModalDeleteOpen: false,
     isModalConfirmedOpen: false,
-    isModalAddTodoOpen: false
+    isModalAddTodoOpen: false,
+    isModalDeleteTodoOpen: false
   },
   getters: {
     getIsModalDeleteOpen: state => state.isModalDeleteOpen,
     getIsModalConfirmedOpen: state => state.isModalConfirmedOpen,
-    getIsModalAddTodoOpen: state => state.isModalAddTodoOpen
+    getIsModalAddTodoOpen: state => state.isModalAddTodoOpen,
+    getIsModalDeleteTodoOpen: state => state.isModalDeleteTodoOpen
   },
   mutations: {
     INIT_IS_MODAL_DELETE_OPEN (state, payload) {
@@ -21,6 +23,9 @@ export default createStore({
     },
     INIT_IS_MODAL_ADD_TODO_OPEN (state, payload) {
       state.isModalAddTodoOpen = payload
+    },
+    INIT_IS_MODAL_DELETE_TODO_OPEN (state, payload) {
+      state.isModalDeleteTodoOpen = payload
     }
   },
   actions: {
@@ -32,6 +37,9 @@ export default createStore({
     },
     changeStatusModalAddTodo ({ commit }, payload) {
       commit('INIT_IS_MODAL_ADD_TODO_OPEN', payload)
+    },
+    changeStatusModalDeleteTodo ({ commit }, payload) {
+      commit('INIT_IS_MODAL_DELETE_TODO_OPEN', payload)
     }
   },
   modules: {

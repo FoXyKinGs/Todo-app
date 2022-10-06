@@ -67,6 +67,7 @@
           v-for='list in detailActivity.todo_items'
           :key='list.id'
           :data='list'
+          @deleteTodo='deleteTodo'
         )
       .no-todo(
         v-else
@@ -78,6 +79,13 @@
     v-if='isModalAddTodoOpen'
     @refreshData='refreshData'
   )
+
+  modal-delete-todo(
+    v-if='isModalDeleteTodoOpen'
+    :data='selectedTodo'
+    @confirmDelete='confirmDelete'
+  )
+
 </template>
 
 <script setup>
@@ -87,7 +95,8 @@ import NoTodo from '@/components/detailActivity/NoTodo.vue'
 import TodoCard from '@/components/detailActivity/TodoCard.vue'
 import SortBox from '@/components/detailActivity/SortBox.vue'
 import InputComponent from '@/components/detailActivity/InputComponent.vue'
-import ModalAddTodo from '@/components/detailActivity/ModalAddTodo.vue'
+import ModalAddTodo from '@/components/modals/ModalAddTodo.vue'
+import ModalDeleteTodo from '@/components/modals/ModalDeleteTodo.vue'
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -101,6 +110,8 @@ const id = route.params.id
 const nameActivity = ref('')
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 const isModalAddTodoOpen = computed(() => store.getters.getIsModalAddTodoOpen)
+const isModalDeleteTodoOpen = computed(() => store.getters.getIsModalDeleteTodoOpen)
+const selectedTodo = ref({})
 // --------
 
 // Function
@@ -152,6 +163,15 @@ const openModalAddTodo = () => {
 }
 
 const refreshData = () => {
+  isLoading.value = true
+  getDetailActivity()
+}
+
+const deleteTodo = val => {
+  selectedTodo.value = val
+}
+
+const confirmDelete = () => {
   isLoading.value = true
   getDetailActivity()
 }
