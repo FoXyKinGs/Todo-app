@@ -67,7 +67,7 @@
         v-if='detailActivity.todo_items.length > 0'
       )
         todo-card(
-          v-for='list in todos'
+          v-for='list in detailActivity.todo_items'
           :key='list.id'
           :data='list'
           @deleteTodo='changeSelected'
@@ -126,7 +126,6 @@ const store = useStore()
 const isEditable = ref(false)
 const id = route.params.id
 const nameActivity = ref('')
-const todos = ref([])
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 const isModalAddTodoOpen = computed(() => store.getters.getIsModalAddTodoOpen)
 const isModalDeleteTodoOpen = computed(() => store.getters.getIsModalDeleteTodoOpen)
@@ -140,7 +139,6 @@ const getDetailActivity = () => {
   store.dispatch('activity/getDetailActivity', id)
     .then((res) => {
       nameActivity.value = res.data.title
-      todos.value = res.data.todo_items
       isLoading.value = false
     })
     .catch(err => console.log(err))
@@ -197,7 +195,6 @@ const confirmDelete = () => {
   store.dispatch('changeStatusModalDeleteTodo', false)
   store.dispatch('activity/getDetailActivity', id)
     .then(res => {
-      todos.value = res.data.todo_items
       store.dispatch('changeStatusModalConfirmed', true)
       isLoading.value = false
     })
@@ -213,22 +210,22 @@ const confirmEdit = (e) => {
     .catch(err => console.log(err))
 }
 
-const changeSorting = (e) => {
+const changeSorting = async (e) => {
   showSortBox()
   if (e === 'terbaru') {
-    return todos.value.sort((a,b) => b.id - a.id)
+    return detailActivity.value.todo_items.sort((a,b) => b.id - a.id)
   }
   if (e === 'terlama') {
-    return todos.value.sort((a,b) => a.id - b.id)
+    return detailActivity.value.todo_items.sort((a,b) => a.id - b.id)
   }
   if (e === 'az') {
-    return todos.value.sort((a,b) => a.title.localeCompare(b.title))
+    return detailActivity.value.todo_items.sort((a,b) => a.title.localeCompare(b.title))
   }
   if (e === 'za') {
-    return todos.value.sort((a,b) => a.title.localeCompare(b.title)).reverse()
+    return detailActivity.value.todo_items.sort((a,b) => a.title.localeCompare(b.title)).reverse()
   }
   if (e === 'belum selesai') {
-    return todos.value.sort((a,b) => b.is_active - a.is_active)
+    return detailActivity.value.todo_items.sort((a,b) => b.is_active - a.is_active)
   }
 
   return

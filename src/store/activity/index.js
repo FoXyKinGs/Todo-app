@@ -85,10 +85,11 @@ const actions = {
         })
     })
   },
-  changeTodoStatus (context, { id, is_active, title }) {
+  changeTodoStatus ({ dispatch }, { id_params, id, is_active, title }) {
     return new Promise((resolve, reject) => {
       axios.patch(`/todo-items/${id}`, { is_active, title })
         .then(response => {
+          dispatch('getDetailActivity', id_params)
           resolve(response)
         })
         .catch(err => {

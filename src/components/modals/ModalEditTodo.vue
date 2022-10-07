@@ -1,26 +1,26 @@
 <template lang="pug">
-.wrapper(
-  data-cy='todo-modal-delete'
-)
+.wrapper
   .background#modal-edit-todo
-  .modal
+  .modal(
+    data-cy='modal-add'
+  )
     .modal__header
       h4(
-        data-cy='modal-edit-title'
+        data-cy='modal-add-title'
       ) Edit Item
       img(
-        data-cy='modal-edit-close-button'
+        data-cy='modal-add-close-button'
         src='@/assets/closeIcon.svg'
         @click='closeModal()'
       )
     .modal__body
       section
         label(
-          data-cy='modal-edit-name-title'
+          data-cy='modal-add-name-title'
           for='listItem'
         ) NAMA LIST ITEM
         input(
-          data-cy='modal-edit-name-input'
+          data-cy='modal-add-name-input'
           id='listItem'
           type='text'
           placeholder='Tambahkan nama list item'
@@ -29,16 +29,16 @@
         )
       section.custom-select
         label(
-          data-cy='modal-edit-priority-title'
+          data-cy='modal-add-priority-title'
         ) PRIORITY
         drop-down(
-          data-cy='modal-edit-priority-dropdown'
+          data-cy='modal-add-priority-dropdown'
           :data='data.priority'
           @changePriority='changePriority'
         )
     .modal__footer
       button(
-        data-cy='modal-edit-save-button'
+        data-cy='modal-add-save-button'
         :disabled='data.priority === "" || data.title === "" ? true : false'
         @click='editTodo()'
       ) Simpan

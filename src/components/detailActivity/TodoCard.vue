@@ -37,10 +37,13 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import { defineProps, defineEmits, ref, watch } from 'vue'
+import { defineProps, defineEmits, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 // Variable
 const store = useStore()
+const route = useRoute()
+const id = route.params.id
 const emit = defineEmits(['deleteTodo', 'editTodo'])
 const props = defineProps({
   data: {
@@ -58,9 +61,9 @@ const status = ref(false)
 // Function
 const changeStatus = () => {
   if (status.value) {
-    store.dispatch('activity/changeTodoStatus', { id: props.data.id, is_active: 1, title: props.data.title })
+    store.dispatch('activity/changeTodoStatus', { id_params: id ,id: props.data.id, is_active: 1, title: props.data.title })
   } else {
-    store.dispatch('activity/changeTodoStatus', { id: props.data.id, is_active: 0, title: props.data.title })
+    store.dispatch('activity/changeTodoStatus', { id_params: id ,id: props.data.id, is_active: 0, title: props.data.title })
   }
 }
 
