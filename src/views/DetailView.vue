@@ -13,9 +13,8 @@
         input-component(
           v-if='isEditable'
           @changeEditable='changeEditable'
-          data-cy='todo-title'
         )
-        span(
+        h1(
           v-else
           data-cy='todo-title'
         ) {{ detailActivity.title }}
@@ -247,7 +246,7 @@ getDetailActivity()
           align-items: center
           margin-right: 35px
 
-        span
+        h1
           font-size: 36px
           line-height: 54px
           font-weight: 700

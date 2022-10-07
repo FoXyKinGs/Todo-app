@@ -3,6 +3,7 @@ input(
   id='editActivityName'
   type='text'
   autocomplete='off'
+  data-cy='todo-title'
   v-model='detailActivity.title'
 )
 </template>
@@ -21,11 +22,16 @@ const detailActivity = computed(() => store.getters['activity/getDetailActivity'
 setTimeout(() => {
   window.onclick = function(event) {
     if (event.target.id != 'editActivityName') {
-      emit('changeEditable', false)
+      emit('changeEditable')
     }
   }
 }, [100])
 // ------------
+
+
+setTimeout(() => {
+  document.querySelector('input').focus()
+}, [100])
 
 </script>
 
