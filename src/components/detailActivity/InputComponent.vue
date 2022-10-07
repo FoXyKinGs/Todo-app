@@ -3,41 +3,21 @@ input(
   id='editActivityName'
   type='text'
   autocomplete='off'
-  v-model='activityName'
-  @keyup='changeValue()'
+  v-model='detailActivity.title'
 )
 </template>
 
 <script setup>
-import { defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits } from 'vue'
 import { useStore } from 'vuex'
 
 // Variable
 const store = useStore()
 const emit = defineEmits(['changeEditable', 'changeActivityName'])
-const props = defineProps({
-  value: {
-    type: String,
-    default: () => null
-  }
-})
-const activityName = ref('')
+const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 // --------
 
-const getDetailActivity = () => {
-  store.dispatch('activity/getDetailActivity', props.value)
-    .then((res) => {
-      activityName.value = res.data.title
-    })
-    .catch(err => console.log(err))
-}
-
-const changeValue = () => {
-  emit('changeActivityName', activityName.value)
-}
-
 // First load instance
-getDetailActivity()
 setTimeout(() => {
   window.onclick = function(event) {
     if (event.target.id != 'editActivityName') {

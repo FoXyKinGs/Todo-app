@@ -12,15 +12,13 @@
           )
         input-component(
           v-if='isEditable'
-          :value='id'
           @changeEditable='changeEditable'
-          @changeActivityName='changeNameActivity'
           data-cy='todo-title'
         )
         span(
           v-else
           data-cy='todo-title'
-        ) {{ nameActivity }}
+        ) {{ detailActivity.title }}
         button.pencil(
           data-cy='todo-title-edit-button'
           @click='changeEditable()'
@@ -125,7 +123,6 @@ const route = useRoute()
 const store = useStore()
 const isEditable = ref(false)
 const id = route.params.id
-const nameActivity = ref('')
 const detailActivity = computed(() => store.getters['activity/getDetailActivity'])
 const isModalAddTodoOpen = computed(() => store.getters.getIsModalAddTodoOpen)
 const isModalDeleteTodoOpen = computed(() => store.getters.getIsModalDeleteTodoOpen)
@@ -138,14 +135,9 @@ const selectedTodo = ref({})
 const getDetailActivity = () => {
   store.dispatch('activity/getDetailActivity', id)
     .then((res) => {
-      nameActivity.value = res.data.title
       isLoading.value = false
     })
     .catch(err => console.log(err))
-}
-
-const changeNameActivity = (val) => {
-  nameActivity.value = val
 }
 
 const showSortBox = () => {
@@ -159,21 +151,11 @@ const showSortBox = () => {
 }
 
 const changeEditable = (val) => {
-  if (val === false) {
-    isEditable.value = val
-  } else if (isEditable.value) {
-    isEditable.value = !isEditable.value
-    isLoading.value = true
-    store.dispatch('activity/changeNameActivity', { id, title: nameActivity.value })
-      .then(() => {
-        getDetailActivity()
-      })
-      .catch(err => console.log(err))
+  if (isEditable.value) {
+    isEditable.value = false
+    store.dispatch('activity/changeNameActivity', detailActivity.value)
   } else {
-    isEditable.value = !isEditable.value
-    setTimeout(() => {
-      document.querySelector('input').focus()
-    }, [100])
+    isEditable.value = true
   }
 }
 

@@ -63,10 +63,11 @@ const actions = {
         })
     })
   },
-  changeNameActivity (context, { id, title }) {
+  changeNameActivity ({ dispatch }, { id, title }) {
     return new Promise((resolve, reject) => {
       axios.patch(`/activity-groups/${id}`, { title })
         .then(response => {
+          dispatch('getDetailActivity', id)
           resolve(response)
         })
         .catch(err => {
