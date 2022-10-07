@@ -1,6 +1,7 @@
 <template lang="pug">
 .custom-dropdown(
   @click='openList()'
+  data-cy='modal-add-priority-dropdown'
 )
   .title(
     data-cy='modal-add-priority-item'
@@ -12,7 +13,6 @@
   .chevron-down-icon
     img(
       src='@/assets/chevronDownIcon.svg'
-      data-cy='modal-add-priority-dropdown'
     )
   .select-box-list.hidden#box-list
     ul
