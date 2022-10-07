@@ -12,16 +12,16 @@
           )
         input-component(
           v-if='isEditable'
-          :value='nameActivity'
+          :value='id'
           @changeEditable='changeEditable'
           @changeActivityName='changeNameActivity'
           data-cy='todo-title'
         )
-        h1(
+        span(
           v-else
           data-cy='todo-title'
         ) {{ nameActivity }}
-        span.pencil(
+        button.pencil(
           data-cy='todo-title-edit-button'
           @click='changeEditable()'
         )
@@ -265,13 +265,15 @@ getDetailActivity()
           align-items: center
           margin-right: 35px
 
-        h1
+        span
           font-size: 36px
           line-height: 54px
           font-weight: 700
 
         .pencil
           margin-left: 10px
+          border: none
+          background: transparent
           cursor: pointer
 
       .right-side

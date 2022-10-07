@@ -10,8 +10,10 @@ input(
 
 <script setup>
 import { defineEmits, defineProps, ref } from 'vue'
+import { useStore } from 'vuex'
 
 // Variable
+const store = useStore()
 const emit = defineEmits(['changeEditable', 'changeActivityName'])
 const props = defineProps({
   value: {
@@ -19,21 +21,30 @@ const props = defineProps({
     default: () => null
   }
 })
-const activityName = ref(props.value)
+const activityName = ref('')
 // --------
+
+const getDetailActivity = () => {
+  store.dispatch('activity/getDetailActivity', props.value)
+    .then((res) => {
+      activityName.value = res.data.title
+    })
+    .catch(err => console.log(err))
+}
 
 const changeValue = () => {
   emit('changeActivityName', activityName.value)
 }
 
 // First load instance
+getDetailActivity()
 setTimeout(() => {
   window.onclick = function(event) {
     if (event.target.id != 'editActivityName') {
       emit('changeEditable', false)
     }
   }
-}, [200])
+}, [100])
 // ------------
 
 </script>
