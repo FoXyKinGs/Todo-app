@@ -1,18 +1,20 @@
 <template lang="pug">
-.wrapper(
-  data-cy='todo-modal-delete'
-)
+.wrapper
   .background#modal-add-todo
-  .modal
+  .modal(
+    data-cy='modal-add'
+  )
     .modal__header
       h4(
         data-cy='modal-add-title'
       ) Tambah Item List
-      img(
+      button(
         data-cy='modal-add-close-button'
-        src='@/assets/closeIcon.svg'
-        @click='closeModal()'
       )
+        img(
+          src='@/assets/closeIcon.svg'
+          @click='closeModal()'
+        )
     .modal__body
       section
         label(
@@ -141,10 +143,16 @@ window.onclick = function(event) {
         font-weight: 600
         line-height: 27px
 
-      img
+      button
         width: 12px
         height: 12px
+        border: none
+        background: transparent
         cursor: pointer
+
+        img
+          width: 12px
+          height: 12px
 
     &__body
       width: 100%

@@ -1,19 +1,18 @@
 <template lang="pug">
-.wrapper(
-  data-cy='todo-modal-delete'
-)
+.wrapper
   .background#modal-delete-todo
-  .modal
+  .modal(
+    data-cy='modal-delete'
+  )
     .modal__header
       img(
         src='@/assets/dangerIcon.svg'
         data-cy='modal-delete-icon'
       )
-      h4(
+    .modal__body
+      p(
         data-cy='modal-delete-title'
       )
-    .modal__body
-      p
         | Apakah anda yakin menghapus List Item
         strong  "{{ props.data.title }}"
         |  ?

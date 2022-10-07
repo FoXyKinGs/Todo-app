@@ -18,6 +18,7 @@
     ul
       li(
         @click='changeValue({ class: "very-high", value: "Very High" })'
+        data-cy='modal-add-priority-item'
       )
         .dot.very-high
         |  Very High
@@ -29,6 +30,7 @@
           )
       li(
         @click='changeValue({ class: "high", value: "High" })'
+        data-cy='modal-add-priority-item'
       )
         .dot.high
         |  High
@@ -40,6 +42,7 @@
           )
       li(
         @click='changeValue({ class: "normal", value: "Medium" })'
+        data-cy='modal-add-priority-item'
       )
         .dot.normal
         |  Medium
@@ -51,6 +54,7 @@
           )
       li(
         @click='changeValue({ class: "low", value: "Low" })'
+        data-cy='modal-add-priority-item'
       )
         .dot.low
         |  Low
@@ -62,6 +66,7 @@
           )
       li(
         @click='changeValue({ class: "very-low", value: "Very Low" })'
+        data-cy='modal-add-priority-item'
       )
         .dot.very-low
         |  Very Low

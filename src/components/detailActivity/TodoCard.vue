@@ -18,7 +18,7 @@
         data-cy='todo-item-title'
         :class='status ? "true" : "false"'
       ) {{ props.data.title }}
-      .edit-icon(
+      button.edit-icon(
         data-cy='todo-item-edit-button'
         @click='editTodo({ id: props.data.id  })'
       )
@@ -26,7 +26,7 @@
           src='@/assets/pencilIcon.svg'
         )
     .right-side
-      .trash-icon(
+      button.trash-icon(
         data-cy='todo-item-delete-button'
       )
         img(
@@ -143,6 +143,8 @@ status.value = props.data.is_active === 1 ? false : true
           color: #888888
 
       .edit-icon
+        border: none
+        background: transparent
         margin-left: 15px
         cursor: pointer
 
@@ -150,5 +152,7 @@ status.value = props.data.is_active === 1 ? false : true
 
 
       .trash-icon
+        border: none
+        background: transparent
         cursor: pointer
 </style>

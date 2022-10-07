@@ -1,8 +1,8 @@
 <template lang="pug">
-.activity-card(
-  data-cy='activity-item'
-)
-  .activity
+.activity-card
+  .activity(
+    data-cy='activity-item'
+  )
     .activity__title(
       @click='changeRoute(props.data.id)'
     )
@@ -13,11 +13,13 @@
       span(
         data-cy='activity-item-date'
       ) {{ formatDate(props.data.created_at) }}
-      img(
-        src='@/assets/trashIcon.svg'
+      button(
         data-cy='activity-item-delete-button'
-        @click='deleteActivity({ id: props.data.id,  title: props.data.title})'
       )
+        img(
+          src='@/assets/trashIcon.svg'
+          @click='deleteActivity({ id: props.data.id,  title: props.data.title})'
+        )
 </template>
 
 <script setup>
@@ -101,8 +103,14 @@ const changeRoute = (id) => {
         line-height: 21px
         color: #888888
 
-      img
+      button
         width: 16px
         height: 18px
-        cursor: pointer
+        border: none
+        background: transparent
+
+        img
+          width: 16px
+          height: 18px
+          cursor: pointer
 </style>

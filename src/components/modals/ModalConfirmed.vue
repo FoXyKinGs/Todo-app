@@ -1,9 +1,9 @@
 <template lang="pug">
-.wrapper(
-  data-cy='todo-modal-delete'
-)
+.wrapper
   .background#modal-confirmed
-  .modal
+  .modal(
+    data-cy='modal-information'
+  )
     .modal__body
       img(
         src='@/assets/informationIcon.svg'

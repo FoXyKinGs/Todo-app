@@ -15,6 +15,7 @@
           :value='nameActivity'
           @changeEditable='changeEditable'
           @changeActivityName='changeNameActivity'
+          data-cy='todo-title'
         )
         h1(
           v-else

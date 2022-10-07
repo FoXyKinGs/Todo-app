@@ -4,13 +4,16 @@ ul
     data-cy='sort-selection'
     @click='changeSorting("terbaru")'
   )
-    img(
-      src='@/assets/newestIcon.svg'
-      data-cy="sort-selection-icon"
+    div(
+      :data-cy='sorting === "terbaru" ? "sort-selection-selected" : "false"'
     )
-    p(
-      data-cy="sort-selection-title"
-    ) Terbaru
+      img(
+        src='@/assets/newestIcon.svg'
+        data-cy="sort-selection-icon"
+      )
+      p(
+        data-cy="sort-selection-title"
+      ) Terbaru
     span(
       v-if='sorting === "terbaru"'
     )
@@ -22,13 +25,16 @@ ul
     data-cy='sort-selection'
     @click='changeSorting("terlama")'
   )
-    img(
-      src='@/assets/oldestIcon.svg'
-      data-cy="sort-selection-icon"
+    div(
+      :data-cy='sorting === "terlama" ? "sort-selection-selected" : "false"'
     )
-    p(
-      data-cy="sort-selection-title"
-    ) Terlama
+      img(
+        src='@/assets/oldestIcon.svg'
+        data-cy="sort-selection-icon"
+      )
+      p(
+        data-cy="sort-selection-title"
+      ) Terlama
     span(
       v-if='sorting === "terlama"'
     )
@@ -39,13 +45,16 @@ ul
     data-cy='sort-selection'
     @click='changeSorting("az")'
   )
-    img(
-      src='@/assets/sortAZIcon.svg'
-      data-cy="sort-selection-icon"
+    div(
+      :data-cy='sorting === "az" ? "sort-selection-selected" : "false"'
     )
-    p(
-      data-cy="sort-selection-title"
-    ) A-Z
+      img(
+        src='@/assets/sortAZIcon.svg'
+        data-cy="sort-selection-icon"
+      )
+      p(
+        data-cy="sort-selection-title"
+      ) A-Z
     span(
       v-if='sorting === "az"'
     )
@@ -56,13 +65,16 @@ ul
     data-cy='sort-selection'
     @click='changeSorting("za")'
   )
-    img(
-      src='@/assets/sortZAIcon.svg'
-      data-cy="sort-selection-icon"
+    div(
+      :data-cy='sorting === "za" ? "sort-selection-selected" : "false"'
     )
-    p(
-      data-cy="sort-selection-title"
-    ) Z-A
+      img(
+        src='@/assets/sortZAIcon.svg'
+        data-cy="sort-selection-icon"
+      )
+      p(
+        data-cy="sort-selection-title"
+      ) Z-A
     span(
       v-if='sorting === "za"'
     )
@@ -73,13 +85,16 @@ ul
     data-cy='sort-selection'
     @click='changeSorting("belum selesai")'
   )
-    img(
-      src='@/assets/unfinishedIcon.svg'
-      data-cy="sort-selection-icon"
+    div(
+      :data-cy='sorting === "belum selesai" ? "sort-selection-selected" : "false"'
     )
-    p(
-      data-cy="sort-selection-title"
-    ) Belum Selesai
+      img(
+        src='@/assets/unfinishedIcon.svg'
+        data-cy="sort-selection-icon"
+      )
+      p(
+        data-cy="sort-selection-title"
+      ) Belum Selesai
     span(
       v-if='sorting === "belum selesai"'
     )
@@ -118,15 +133,17 @@ ul
     width: 100%
     height: calc( 260px / 5 )
     border-bottom: 1px solid #E5E5E5
-    display: flex
-    justify-content: flex-start
-    align-items: center
     padding: 0 20px
     box-sizing: border-box
     cursor: pointer
-    gap: 15px
     font-size: 16px
     font-weight: 400
+
+    div
+      padding: 10px 0
+      display: flex
+      align-items: center
+      gap: 15px
 
     &:hover
       background-color: #E9ECEF
